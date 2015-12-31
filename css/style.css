@@ -1,0 +1,149 @@
+/* Put your css in here */
+
+html, body {
+    height: calc(100%);
+}
+
+.clearfix:before, .clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+.clearfix {
+    *zoom: 1;
+}
+
+.container {
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 0px;
+    background: gray;
+    height: -moz-calc(100%);
+    height: -webkit-calc(100%);
+    height: calc(100%);
+}
+
+#map-wrapper{
+    height: 100%;
+    background-color: #383838;
+    z-index: 99999;
+    /*width: 100%;*/
+    position: relative;
+}
+
+.map_container{
+    box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+}
+
+#map{
+    height: 100%;
+    width: 100%;
+    box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+}
+
+.listContainer{
+    /*width: 100%;*/
+    height: -moz-calc(100%);
+    height: -webkit-calc(100%);
+    height: calc(100%);
+    background: cornflowerblue;
+    overflow-y: auto;
+}
+
+.momentContainer{
+    height: -moz-calc(90%);
+    height: -webkit-calc(90%);
+    height: calc(90%);
+
+}
+
+@media (max-width: 768px) {
+    #map-wrapper{
+        height: 300px;
+    }
+    .listContainer{
+        height: -moz-calc(100% - 300px);
+        height: -webkit-calc(100% - 300px);
+        height: calc(100% - 300px);
+    }
+
+}
+
+.activeMarker{
+    color: red;
+    display: block;
+}
+
+.pinMarker{
+    /* position: absolute; */
+    /* left: 5px; */
+    /* top: 100px; */
+    font-size: 30px !important;
+    color: #cd011e;
+    float: right;
+    position: relative;
+    margin-top: -29px;
+}
+
+.bottom-gradient {
+    top: 0px;
+    background: transparent url('../img/black-gradient-80percent.png') center bottom repeat-x;
+    height: 100px;
+    max-width: 600px;
+}
+
+.leaflet-div-icon {
+    background: #cd011e;
+    /*border: 1px solid #999;*/
+    width: 6px;
+    height: 6px;
+    border-color: rgba(0,0,0,.1);
+    border-radius: 50%;
+}
+
+.pulse {
+    margin: -43px -17px;
+    display: block;
+    width: 44px;
+    height: 44px;
+    border-radius: 44px 0px 0 0;
+    background: #cd011e;
+    cursor: pointer;
+    transform: rotate(45deg);
+    box-shadow: 0 0 0 rgba(204,169,44, 0.4);
+    animation: pulse 2s infinite;
+    opacity: .3;
+}
+.pulse:hover {
+    animation: none;
+}
+
+@-webkit-keyframes pulse {
+    0% {
+        -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+    }
+    50% {
+        -webkit-box-shadow: 0 0 0 50px rgba(204,169,44, 0);
+    }
+    100% {
+        -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+    }
+}
+@keyframes pulse {
+    0% {
+        -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+        box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+    }
+    50% {
+        -moz-box-shadow: 0 0 0 50px rgba(204,169,44, 0);
+        box-shadow: 0 0 0 50px rgba(204,169,44, 0);
+    }
+    100% {
+        -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+        box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+    }
+}
+
