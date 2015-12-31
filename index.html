@@ -21,8 +21,10 @@
 
 </head>
 <body ng-app='Motion'>
-
 <div ng-controller="MainCtrl">
+    <div>
+        <h2>{{count}}</h2>
+    </div>
     <nvd3-multi-bar-chart
             data="exampleData"
             id="exampleId"
@@ -36,6 +38,7 @@
             tooltips="true"
             ><svg></svg></nvd3-multi-bar-chart>
 </div>
+
 
 </body>
 </html>

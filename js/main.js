@@ -68,6 +68,8 @@ app.controller('MainCtrl', function($scope, $timeout, parsePersistence, parseQue
             .then(function(results) {
 
                 $scope.exampleData = [];
+
+                $scope.count = results.length;
 //
                 for (var i = 0; i < results.length; i++) {
 
