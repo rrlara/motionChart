@@ -58,7 +58,7 @@ app.controller('MainCtrl', function($scope, $timeout, parsePersistence, parseQue
 
 //       var limit = 1;
 
-        var query = parseQuery.new('Segments');
+        var query = parseQuery.new('SegmentsTest2');
 
 //        query.limit(limit);
         query.descending("createAt");
