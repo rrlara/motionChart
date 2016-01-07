@@ -56,11 +56,11 @@ app.controller('MainCtrl', function($scope, $timeout, parsePersistence, parseQue
     // retrieve a list of 1000 items from server and the total number of items
     $rootScope.find = function() {
 
-//       var limit = 1;
+       var limit = 1000;
 
-        var query = parseQuery.new('SegmentsTest2');
+        var query = parseQuery.new('SegmentsTest3');
 
-//        query.limit(limit);
+        query.limit(limit);
         query.descending("createAt");
 //        query.skip(skip);
 
