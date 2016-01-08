@@ -52,6 +52,10 @@ app.controller('MainCtrl', function($scope, $timeout, parsePersistence, parseQue
         "key": "Walking",
         "values": []
     }
+    var run = {
+        "key": "Running",
+        "values": []
+    }
 
     // retrieve a list of 1000 items from server and the total number of items
     $rootScope.find = function() {
@@ -66,6 +70,15 @@ app.controller('MainCtrl', function($scope, $timeout, parsePersistence, parseQue
 
         parseQuery.find(query)
             .then(function(results) {
+
+                for (var i = 0; i < results.length; i++) {
+                    var motionObj = results[i];
+
+                    var startDate = new Date (motionObj.attributes.startDate);
+                    results[i].formatDate = (startDate.getMonth() + 1) + '/' + startDate.getDate() + '/' +  startDate.getFullYear();
+                }
+
+                console.log("Added formattedStartDate: ", results);
 
                 parseData(results);
 
@@ -84,68 +97,84 @@ app.controller('MainCtrl', function($scope, $timeout, parsePersistence, parseQue
             && this.getMonth() === d.getMonth();
     }
 
+    $scope.toolTipContentFunction = function(){
+        return function(key, x, y, e, graph) {
+            return '<h4>' + key + '</h4>' +
+                '<span>' +  y + ' mins  -  ' + x + '</span>'
+        }
+    }
+
     function parseData(results){
         $scope.exampleData = [];
 
         $scope.count = results.length;
+
+        var expensesTotalByDay = d3.nest()
+            .key(function(d) { return d.formatDate; })
+            .key(function(d) { return d.attributes.activityType; })
+            .rollup(function(v) { return d3.sum(v, function(d) { return d.attributes.timeInterval; }); })
+            .map(results);
+        console.log(JSON.stringify(expensesTotalByDay));
+
+        var activityTypes = ["Stationary", "Automotive", "Cycling", "Walking", "Running"]
 //
-        for (var i = 0; i < results.length - 1; i++) {
+        for (var date in expensesTotalByDay) {
 
-            var motionObj = results[i];
-            var activityType = motionObj.attributes.activityType;
-            //var endDate = Date.parse(new Date (motionObj.attributes.endDate));
+            var dailyActivities = expensesTotalByDay[date];
 
-            var startDate = new Date (motionObj.attributes.startDate);
-            var endDate = new Date (motionObj.attributes.endDate);
+            console.log("item: ", date);
+            console.log("dailyActivities: ", dailyActivities);
 
-            var nextStartDate = new Date (results[i + 1].attributes.startDate);
+            for (var act in dailyActivities){
 
-            console.log("Current Endate: " + motionObj.attributes.endDate + " - " + "Next Current start Date: " + results[i + 1].attributes.startDate);
+                console.log("act: ", act);
 
-            if(endDate.sameDay(nextStartDate)) {
-                console.log("same day");
-            }else{
-                console.log("different day");
+                switch (act) {
+                    case "Stationary":
+                        stationary.values.push([date, dailyActivities[act]]);
+                        auto.values.push([date, 0]);
+                        cycle.values.push([date, 0]);
+                        walk.values.push([date, 0]);
+                        run.values.push([date, 0])
+                        break;
+                    case "Automotive":
+                        stationary.values.push([date, 0]);
+                        auto.values.push([date, dailyActivities[act]]);
+                        cycle.values.push([date, 0]);
+                        walk.values.push([date, 0])
+                        run.values.push([date, 0])
+                        break;
+                    case "Cycling":
+                        stationary.values.push([date, 0]);
+                        auto.values.push([date, 0]);
+                        cycle.values.push([date, dailyActivities[act]]);
+                        walk.values.push([date, 0])
+                        run.values.push([date, 0])
+                        break;
+                    case "Walking":
+                        stationary.values.push([date, 0]);
+                        auto.values.push([date, 0]);
+                        cycle.values.push([date, 0]);
+                        walk.values.push([date, dailyActivities[act]])
+                        run.values.push([date, 0])
+                        break;
+                    case "Running":
+                        stationary.values.push([date, 0]);
+                        auto.values.push([date, 0]);
+                        cycle.values.push([date, 0]);
+                        walk.values.push([date, 0])
+                        run.values.push([date, dailyActivities[act]])
+                        break;
+                }
+
             }
-
-            //console.log("formatted Date: ", endDate);
-            var timeInterval = (motionObj.attributes.timeInterval);
-
-            switch (activityType) {
-                case "Stationary":
-                    stationary.values.push([endDate, timeInterval]);
-                    auto.values.push([endDate, 0]);
-                    cycle.values.push([endDate, 0]);
-                    walk.values.push([endDate, 0])
-                    break;
-                case "Automotive":
-                    stationary.values.push([endDate, 0]);
-                    auto.values.push([endDate, timeInterval]);
-                    cycle.values.push([endDate, 0]);
-                    walk.values.push([endDate, 0])
-                    break;
-                case "Cycling":
-                    stationary.values.push([endDate, 0]);
-                    auto.values.push([endDate, 0]);
-                    cycle.values.push([endDate, timeInterval]);
-                    walk.values.push([endDate, 0])
-                    break;
-                case "Walking":
-                    stationary.values.push([endDate, 0]);
-                    auto.values.push([endDate, 0]);
-                    cycle.values.push([endDate, 0]);
-                    walk.values.push([endDate, timeInterval])
-                    break;
-            }
-
-
-
         }
 
         $scope.exampleData.push(stationary);
         $scope.exampleData.push(auto);
         $scope.exampleData.push(cycle);
         $scope.exampleData.push(walk);
+        $scope.exampleData.push(run);
 
         console.log("orale: ", $scope.exampleData);
     }
@@ -154,3 +183,4 @@ app.controller('MainCtrl', function($scope, $timeout, parsePersistence, parseQue
 
 
 });
+
