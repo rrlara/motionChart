@@ -62,7 +62,7 @@ app.controller('MainCtrl', function($scope, $timeout, parsePersistence, parseQue
 
        var limit = 1000;
 
-        var query = parseQuery.new('SegmentsTest3');
+        var query = parseQuery.new('SegmentsTest9');
 
         query.limit(limit);
         query.ascending("endDateOriginal");
