@@ -129,9 +129,11 @@ app.controller('MainCtrl', function($scope, $timeout, parsePersistence, parseQue
 
                 console.log("act: ", act);
 
+                var activityDuration = dailyActivities[act];
+
                 switch (act) {
                     case "Stationary":
-                        stationary.values.push([date, dailyActivities[act]]);
+                        stationary.values.push([date, activityDuration]);
                         auto.values.push([date, 0]);
                         cycle.values.push([date, 0]);
                         walk.values.push([date, 0]);
@@ -139,7 +141,7 @@ app.controller('MainCtrl', function($scope, $timeout, parsePersistence, parseQue
                         break;
                     case "Automotive":
                         stationary.values.push([date, 0]);
-                        auto.values.push([date, dailyActivities[act]]);
+                        auto.values.push([date, activityDuration]);
                         cycle.values.push([date, 0]);
                         walk.values.push([date, 0])
                         run.values.push([date, 0])
@@ -147,7 +149,7 @@ app.controller('MainCtrl', function($scope, $timeout, parsePersistence, parseQue
                     case "Cycling":
                         stationary.values.push([date, 0]);
                         auto.values.push([date, 0]);
-                        cycle.values.push([date, dailyActivities[act]]);
+                        cycle.values.push([date, activityDuration]);
                         walk.values.push([date, 0])
                         run.values.push([date, 0])
                         break;
@@ -155,7 +157,7 @@ app.controller('MainCtrl', function($scope, $timeout, parsePersistence, parseQue
                         stationary.values.push([date, 0]);
                         auto.values.push([date, 0]);
                         cycle.values.push([date, 0]);
-                        walk.values.push([date, dailyActivities[act]])
+                        walk.values.push([date, activityDuration])
                         run.values.push([date, 0])
                         break;
                     case "Running":
@@ -163,7 +165,7 @@ app.controller('MainCtrl', function($scope, $timeout, parsePersistence, parseQue
                         auto.values.push([date, 0]);
                         cycle.values.push([date, 0]);
                         walk.values.push([date, 0])
-                        run.values.push([date, dailyActivities[act]])
+                        run.values.push([date, activityDuration])
                         break;
                 }
 
